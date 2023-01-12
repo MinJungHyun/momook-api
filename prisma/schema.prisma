@@ -10,6 +10,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+generator custom_generator {
+  provider = "nestjs-prisma-graphql-crud-gen"
+  output   = "../generated"
+}
+
 model User {
   id    Int     @id @default(autoincrement())
   email String  @unique
