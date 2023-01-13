@@ -12,7 +12,7 @@ datasource db {
 
 generator custom_generator {
   provider = "nestjs-prisma-graphql-crud-gen"
-  output   = "../generated"
+  output   = "../src/generated"
 }
 
 model User {

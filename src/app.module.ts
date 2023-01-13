@@ -7,8 +7,7 @@ import { PostModule } from './modules/post/post.module';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       playground: true,
-      sortSchema: true,
-      autoSchemaFile: true
+      autoSchemaFile: 'schema.gql'
     }),
     PostModule
   ],

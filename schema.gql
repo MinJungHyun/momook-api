@@ -1,0 +1,15 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type PostDTO {
+  id: Float!
+  title: String!
+  content: String!
+  published: Boolean!
+  authorId: Float!
+}
+
+type Query {
+  posts: [PostDTO!]!
+}
