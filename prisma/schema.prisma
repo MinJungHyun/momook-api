@@ -13,120 +13,21 @@ datasource db {
 }
 
 model Place {
-  id                 Int                 @id @default(autoincrement())
-  name               String
-  lat                Float
-  lng                Float
-  kakaoPlaceId       String
-  reviewCnt          Int
-  pointAvg           Float
-  likeCnt            Int
-  createdAt          DateTime            @default(now())
-  updatedAt          DateTime
-  placeMoods         PlaceMood[]
-  reviews            Review[]
-  reviewComments     ReviewComment[]
-  reviewCommentMoods ReviewCommentMood[]
-  reviewMoods        ReviewMood[]
-  stamps             Stamp[]
-}
+  id     Int    @id @default(autoincrement())
+  name   String
+  gender Gender
 
-model User {
-  id                 Int                 @id @default(autoincrement())
-  name               String?
-  socialType         String?
-  password           String?
-  email              String?
-  createdAt          DateTime            @default(now())
-  updatedAt          DateTime
-  placeMoods         PlaceMood[]
-  reviews            Review[]
-  reviewComments     ReviewComment[]
-  reviewCommentMoods ReviewCommentMood[]
-  reviewMoods        ReviewMood[]
-  stamps             Stamp[]
+  stamps Stamp[]
 }
 
 model Stamp {
-  id        Int      @id @default(autoincrement())
-  mealType  MealType @default(breakfast)
-  createdAt DateTime @default(now())
-  updatedAt DateTime
-  place     Place?   @relation(fields: [placeId], references: [id])
-  placeId   Int?
-  user      User?    @relation(fields: [userId], references: [id])
-  userId    Int?
-}
+  id        Int       @id @default(autoincrement())
+  count     String
+  mealType  MealType  @default(breakfast)
+  errorType ErrorType @default(notFound)
 
-model Review {
-  id                Int                 @id @default(autoincrement())
-  title             String
-  content           String?
-  point             Float
-  createdAt         DateTime            @default(now())
-  deletedAt         DateTime?
-  updatedAt         DateTime
-  place             Place?              @relation(fields: [placeId], references: [id])
-  placeId           Int?
-  user              User?               @relation(fields: [userId], references: [id])
-  userId            Int?
-  reviewComments    ReviewComment[]
-  reviewMoods       ReviewMood[]
-  ReviewCommentMood ReviewCommentMood[]
-}
-
-model ReviewComment {
-  id                 Int                 @id @default(autoincrement())
-  content            String
-  createdAt          DateTime            @default(now())
-  deletedAt          DateTime?
-  updatedAt          DateTime
-  place              Place?              @relation(fields: [placeId], references: [id])
-  placeId            Int?
-  review             Review?             @relation(fields: [reviewId], references: [id])
-  reviewId           Int?
-  user               User?               @relation(fields: [userId], references: [id])
-  userId             Int?
-  reviewCommentMoods ReviewCommentMood[]
-}
-
-model PlaceMood {
-  id        Int      @id @default(autoincrement())
-  status    Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime
-  place     Place?   @relation(fields: [placeId], references: [id])
-  placeId   Int?
-  user      User?    @relation(fields: [userId], references: [id])
-  userId    Int?
-}
-
-model ReviewMood {
-  id        Int      @id @default(autoincrement())
-  status    Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime
-  place     Place?   @relation(fields: [placeId], references: [id])
-  placeId   Int?
-  review    Review?  @relation(fields: [reviewId], references: [id])
-  reviewId  Int?
-  user      User?    @relation(fields: [userId], references: [id])
-  userId    Int?
-}
-
-model ReviewCommentMood {
-  id              Int            @id @default(autoincrement())
-  status          Int
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime
-  place           Place?         @relation(fields: [placeId], references: [id])
-  placeId         Int?
-  reviewComment   ReviewComment? @relation(fields: [reviewCommentId], references: [id])
-  reviewCommentId Int?
-  review          Review?        @relation(fields: [reviewId], references: [id])
-  reviewId        Int?
-  user            User?          @relation(fields: [userId], references: [id])
-  userId          Int?
+  place   Place? @relation(fields: [placeId], references: [id])
+  placeId Int?
 }
 
 enum MealType {
@@ -134,4 +35,14 @@ enum MealType {
   lunch
   dinner
   night
+}
+
+enum Gender {
+  man
+  woman
+}
+
+enum ErrorType {
+  notFound
+  alreadyExists
 }
