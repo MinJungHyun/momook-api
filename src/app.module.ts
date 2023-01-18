@@ -1,8 +1,7 @@
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { Module } from '@nestjs/common';
-import { GraphQLModule } from '@nestjs/graphql';
-import { PostModule } from './generated/post/post.module';
-import { UserModule } from './generated/user/user.module';
+import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
+import { Module } from "@nestjs/common";
+import { GraphQLModule } from "@nestjs/graphql";
+// import { PlaceModule } from "./generated/place/place.module";
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -10,9 +9,8 @@ import { UserModule } from './generated/user/user.module';
       playground: true,
       sortSchema: true,
       autoSchemaFile: true
-    }),
-    PostModule,
-    UserModule
+    })
+    // PlaceModule
   ],
   providers: []
 })
