@@ -15,18 +15,110 @@ generator custom_generator {
   output   = "../src/generated"
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
+model place {
+  id                Int                 @id @default(autoincrement())
+  name              String
+  lat               Float
+  lng               Float
+  kakaoPlaceId      String
+  reviewCnt         Int
+  pointAvg          Float
+  likeCnt           Int
+  stamp             stamp[]
+  review            review[]
+  reviewComment     reviewComment[]
+  placeMood         placeMood[]
+  reviewMood        reviewMood[]
+  reviewCommentMood reviewCommentMood[]
 }
 
-model Post {
+model user {
+  id                Int                 @id @default(autoincrement())
+  name              String?
+  socialType        String?
+  password          String?
+  email             String?
+  stamp             stamp[]
+  review            review[]
+  reviewComment     reviewComment[]
+  placeMood         placeMood[]
+  reviewMood        reviewMood[]
+  reviewCommentMood reviewCommentMood[]
+}
+
+model stamp {
   id        Int      @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean? @default(false)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
+  mealType  mealType
+  place     place?   @relation(fields: [placeId], references: [id])
+  placeId   Int?
+  user      user?    @relation(fields: [userId], references: [id])
+  userId    Int?
+  //찍은시간
+  createdAt DateTime @default(now())
+}
+
+enum mealType {
+  breakfast
+  lunch
+  dinner
+  night
+}
+
+model review {
+  id                Int                 @id @default(autoincrement())
+  title             String
+  content           String?
+  point             Float
+  place             place?              @relation(fields: [placeId], references: [id])
+  placeId           Int?
+  user              user?               @relation(fields: [userId], references: [id])
+  userId            Int?
+  reviewComment     reviewComment[]
+  reviewMood        reviewMood[]
+  reviewCommentMood reviewCommentMood[]
+}
+
+model reviewComment {
+  id                Int                 @id @default(autoincrement())
+  content           String
+  user              user?               @relation(fields: [userId], references: [id])
+  userId            Int?
+  review            review?             @relation(fields: [reviewId], references: [id])
+  reviewId          Int?
+  place             place?              @relation(fields: [placeId], references: [id])
+  placeId           Int?
+  reviewCommentMood reviewCommentMood[]
+}
+
+model placeMood {
+  id      Int    @id @default(autoincrement())
+  status  Int
+  user    user?  @relation(fields: [userId], references: [id])
+  userId  Int?
+  place   place? @relation(fields: [placeId], references: [id])
+  placeId Int?
+}
+
+model reviewMood {
+  id       Int     @id @default(autoincrement())
+  status   Int
+  user     user?   @relation(fields: [userId], references: [id])
+  userId   Int?
+  place    place?  @relation(fields: [placeId], references: [id])
+  placeId  Int?
+  review   review? @relation(fields: [reviewId], references: [id])
+  reviewId Int?
+}
+
+model reviewCommentMood {
+  id              Int            @id @default(autoincrement())
+  status          Int
+  user            user?          @relation(fields: [userId], references: [id])
+  userId          Int?
+  place           place?         @relation(fields: [placeId], references: [id])
+  placeId         Int?
+  review          review?        @relation(fields: [reviewId], references: [id])
+  reviewId        Int?
+  reviewComment   reviewComment? @relation(fields: [reviewCommentId], references: [id])
+  reviewCommentId Int?
 }
