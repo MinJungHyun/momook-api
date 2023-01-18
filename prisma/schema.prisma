@@ -1,13 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
-}
-
-datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
 }
 
 generator custom_generator {
@@ -15,110 +7,131 @@ generator custom_generator {
   output   = "../src/generated"
 }
 
-model place {
-  id                Int                 @id @default(autoincrement())
-  name              String
-  lat               Float
-  lng               Float
-  kakaoPlaceId      String
-  reviewCnt         Int
-  pointAvg          Float
-  likeCnt           Int
-  stamp             stamp[]
-  review            review[]
-  reviewComment     reviewComment[]
-  placeMood         placeMood[]
-  reviewMood        reviewMood[]
-  reviewCommentMood reviewCommentMood[]
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
-model user {
-  id                Int                 @id @default(autoincrement())
-  name              String?
-  socialType        String?
-  password          String?
-  email             String?
-  stamp             stamp[]
-  review            review[]
-  reviewComment     reviewComment[]
-  placeMood         placeMood[]
-  reviewMood        reviewMood[]
-  reviewCommentMood reviewCommentMood[]
+model Place {
+  id                 Int                 @id @default(autoincrement())
+  name               String
+  lat                Float
+  lng                Float
+  kakaoPlaceId       String
+  reviewCnt          Int
+  pointAvg           Float
+  likeCnt            Int
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime
+  placeMoods         PlaceMood[]
+  reviews            Review[]
+  reviewComments     ReviewComment[]
+  reviewCommentMoods ReviewCommentMood[]
+  reviewMoods        ReviewMood[]
+  stamps             Stamp[]
 }
 
-model stamp {
+model User {
+  id                 Int                 @id @default(autoincrement())
+  name               String?
+  socialType         String?
+  password           String?
+  email              String?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime
+  placeMoods         PlaceMood[]
+  reviews            Review[]
+  reviewComments     ReviewComment[]
+  reviewCommentMoods ReviewCommentMood[]
+  reviewMoods        ReviewMood[]
+  stamps             Stamp[]
+}
+
+model Stamp {
   id        Int      @id @default(autoincrement())
-  mealType  mealType
-  place     place?   @relation(fields: [placeId], references: [id])
-  placeId   Int?
-  user      user?    @relation(fields: [userId], references: [id])
-  userId    Int?
-  //찍은시간
+  mealType  MealType @default(breakfast)
   createdAt DateTime @default(now())
+  updatedAt DateTime
+  place     Place?   @relation(fields: [placeId], references: [id])
+  placeId   Int?
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
 }
 
-enum mealType {
-  breakfast
-  lunch
-  dinner
-  night
-}
-
-model review {
+model Review {
   id                Int                 @id @default(autoincrement())
   title             String
   content           String?
   point             Float
-  place             place?              @relation(fields: [placeId], references: [id])
+  createdAt         DateTime            @default(now())
+  deletedAt         DateTime?
+  updatedAt         DateTime
+  place             Place?              @relation(fields: [placeId], references: [id])
   placeId           Int?
-  user              user?               @relation(fields: [userId], references: [id])
+  user              User?               @relation(fields: [userId], references: [id])
   userId            Int?
-  reviewComment     reviewComment[]
-  reviewMood        reviewMood[]
-  reviewCommentMood reviewCommentMood[]
+  reviewComments    ReviewComment[]
+  reviewMoods       ReviewMood[]
+  ReviewCommentMood ReviewCommentMood[]
 }
 
-model reviewComment {
-  id                Int                 @id @default(autoincrement())
-  content           String
-  user              user?               @relation(fields: [userId], references: [id])
-  userId            Int?
-  review            review?             @relation(fields: [reviewId], references: [id])
-  reviewId          Int?
-  place             place?              @relation(fields: [placeId], references: [id])
-  placeId           Int?
-  reviewCommentMood reviewCommentMood[]
+model ReviewComment {
+  id                 Int                 @id @default(autoincrement())
+  content            String
+  createdAt          DateTime            @default(now())
+  deletedAt          DateTime?
+  updatedAt          DateTime
+  place              Place?              @relation(fields: [placeId], references: [id])
+  placeId            Int?
+  review             Review?             @relation(fields: [reviewId], references: [id])
+  reviewId           Int?
+  user               User?               @relation(fields: [userId], references: [id])
+  userId             Int?
+  reviewCommentMoods ReviewCommentMood[]
 }
 
-model placeMood {
-  id      Int    @id @default(autoincrement())
-  status  Int
-  user    user?  @relation(fields: [userId], references: [id])
-  userId  Int?
-  place   place? @relation(fields: [placeId], references: [id])
-  placeId Int?
+model PlaceMood {
+  id        Int      @id @default(autoincrement())
+  status    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  place     Place?   @relation(fields: [placeId], references: [id])
+  placeId   Int?
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
 }
 
-model reviewMood {
-  id       Int     @id @default(autoincrement())
-  status   Int
-  user     user?   @relation(fields: [userId], references: [id])
-  userId   Int?
-  place    place?  @relation(fields: [placeId], references: [id])
-  placeId  Int?
-  review   review? @relation(fields: [reviewId], references: [id])
-  reviewId Int?
+model ReviewMood {
+  id        Int      @id @default(autoincrement())
+  status    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  place     Place?   @relation(fields: [placeId], references: [id])
+  placeId   Int?
+  review    Review?  @relation(fields: [reviewId], references: [id])
+  reviewId  Int?
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
 }
 
-model reviewCommentMood {
+model ReviewCommentMood {
   id              Int            @id @default(autoincrement())
   status          Int
-  user            user?          @relation(fields: [userId], references: [id])
-  userId          Int?
-  place           place?         @relation(fields: [placeId], references: [id])
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime
+  place           Place?         @relation(fields: [placeId], references: [id])
   placeId         Int?
-  review          review?        @relation(fields: [reviewId], references: [id])
-  reviewId        Int?
-  reviewComment   reviewComment? @relation(fields: [reviewCommentId], references: [id])
+  reviewComment   ReviewComment? @relation(fields: [reviewCommentId], references: [id])
   reviewCommentId Int?
+  review          Review?        @relation(fields: [reviewId], references: [id])
+  reviewId        Int?
+  user            User?          @relation(fields: [userId], references: [id])
+  userId          Int?
+}
+
+enum MealType {
+  breakfast
+  lunch
+  dinner
+  night
 }
