@@ -1,6 +1,7 @@
-import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
-import { Module } from "@nestjs/common";
-import { GraphQLModule } from "@nestjs/graphql";
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { Module } from '@nestjs/common';
+import { GraphQLModule } from '@nestjs/graphql';
+import { StampModule } from './modules/stamp/stamp.module';
 // import { PlaceModule } from "./generated/place/place.module";
 @Module({
   imports: [
@@ -9,8 +10,9 @@ import { GraphQLModule } from "@nestjs/graphql";
       playground: true,
       sortSchema: true,
       autoSchemaFile: true
-    })
+    }),
     // PlaceModule
+    StampModule
   ],
   providers: []
 })

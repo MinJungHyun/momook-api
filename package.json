@@ -28,8 +28,9 @@
     "@nestjs/platform-express": "^8.0.0",
     "@prisma/client": "^4.9.0",
     "apollo-server-express": "^3.11.1",
+    "class-transformer": "^0.5.1",
     "graphql": "^16.6.0",
-    "nestjs-prisma-graphql-crud-gen": "^1.0.3",
+    "prisma-nestjs-graphql": "^17.1.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0"
