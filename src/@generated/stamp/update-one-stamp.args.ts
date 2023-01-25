@@ -6,13 +6,11 @@ import { StampWhereUniqueInput } from './stamp-where-unique.input';
 
 @ArgsType()
 export class UpdateOneStampArgs {
+  @Field(() => StampUpdateInput, { nullable: false })
+  @Type(() => StampUpdateInput)
+  data!: StampUpdateInput;
 
-    @Type(() => StampUpdateInput)
-    @Field(() => StampUpdateInput, {nullable:false})
-    data!: StampUpdateInput;
-
-    @Field(() => StampWhereUniqueInput, {nullable:false})
-    @Type(() => StampWhereUniqueInput)
-    where!: StampWhereUniqueInput;
+  @Field(() => StampWhereUniqueInput, { nullable: false })
+  @Type(() => StampWhereUniqueInput)
+  where!: StampWhereUniqueInput;
 }
- 

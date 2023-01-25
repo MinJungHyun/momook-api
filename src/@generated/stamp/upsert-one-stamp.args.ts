@@ -7,16 +7,15 @@ import { StampUpdateInput } from './stamp-update.input';
 
 @ArgsType()
 export class UpsertOneStampArgs {
+  @Field(() => StampWhereUniqueInput, { nullable: false })
+  @Type(() => StampWhereUniqueInput)
+  where!: StampWhereUniqueInput;
 
-    @Field(() => StampWhereUniqueInput, {nullable:false})
-    @Type(() => StampWhereUniqueInput)
-    where!: StampWhereUniqueInput;
+  @Field(() => StampCreateInput, { nullable: false })
+  @Type(() => StampCreateInput)
+  create!: StampCreateInput;
 
-    @Field(() => StampCreateInput, {nullable:false})
-    @Type(() => StampCreateInput)
-    create!: StampCreateInput;
-
-    @Field(() => StampUpdateInput, {nullable:false})
-    @Type(() => StampUpdateInput)
-    update!: StampUpdateInput;
+  @Field(() => StampUpdateInput, { nullable: false })
+  @Type(() => StampUpdateInput)
+  update!: StampUpdateInput;
 }

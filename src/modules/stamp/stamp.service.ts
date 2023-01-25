@@ -1,18 +1,20 @@
-import { CreateManyStampArgs } from '@generated/stamp/create-many-stamp.args';
-import { CreateOneStampArgs } from '@generated/stamp/create-one-stamp.args';
-import { DeleteManyStampArgs } from '@generated/stamp/delete-many-stamp.args';
-import { DeleteOneStampArgs } from '@generated/stamp/delete-one-stamp.args';
-import { FindFirstStampOrThrowArgs } from '@generated/stamp/find-first-stamp-or-throw.args';
-import { FindManyStampArgs } from '@generated/stamp/find-many-stamp.args';
-import { FindUniqueStampArgs } from '@generated/stamp/find-unique-stamp.args';
-import { StampAggregateArgs } from '@generated/stamp/stamp-aggregate.args';
-import { StampGroupByArgs } from '@generated/stamp/stamp-group-by.args';
-import { UpdateManyStampArgs } from '@generated/stamp/update-many-stamp.args';
-import { UpdateOneStampArgs } from '@generated/stamp/update-one-stamp.args';
-import { UpsertOneStampArgs } from '@generated/stamp/upsert-one-stamp.args';
+import {
+  CreateManyStampArgs,
+  CreateOneStampArgs,
+  DeleteManyStampArgs,
+  DeleteOneStampArgs,
+  FindFirstStampOrThrowArgs,
+  FindManyStampArgs,
+  FindUniqueStampArgs,
+  StampAggregateArgs,
+  StampGroupByArgs,
+  UpdateManyStampArgs,
+  UpdateOneStampArgs,
+  UpsertOneStampArgs
+} from '@generated';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
-import { Prisma } from '@prisma/client';
+
 @Injectable()
 export class StampService {
   constructor(private prisma: PrismaService) {}
@@ -47,7 +49,7 @@ export class StampService {
     return this.prisma.stamp.createMany(args);
   }
 
-  update(args: Prisma.StampUpdateArgs) {
+  update(args: UpdateOneStampArgs) {
     return this.prisma.stamp.update(args);
   }
 
